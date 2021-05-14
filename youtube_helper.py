@@ -30,11 +30,6 @@ class helper:
 
         keep_going = True
         while (keep_going):
-            if (size > 0):
-                count+=1
-                if (size == count):
-                    print("seems you have reached your limit")
-                    keep_going = False
             for key in self.key:
                 if key == "keyword":
                     self.keywords[key].append(input("what will the keyword be"))
@@ -47,3 +42,8 @@ class helper:
                     pass
                 else:
                     keep_going = False
+            if (size == count+1):
+                print("seems you have reached your limit")
+                keep_going = False
+            if (size > 0):
+                count += 1
