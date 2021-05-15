@@ -1,6 +1,7 @@
+keywords = []
 class helper:
     def __init__(self):
-        self.keywords = []
+        # self.keywords = []
         print("hello youtuber i am the youtube helper but you can call me helper")
         print("I was created to make your youtube keyword research less of a head ach")
         print("I do this by keeping track of all the your keyword scores from the different keyword databases")
@@ -11,5 +12,7 @@ class helper:
         i = 0
         while (i < count):
             database = input("what will the name of the database be")
-            self.keywords.append(database)
+            keywords.append(database)
             i+=1
+        for i in keywords:
+            print(i)
