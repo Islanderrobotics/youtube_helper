@@ -36,10 +36,9 @@ class helper:
                 else:
                     self.keyword[key].append(int(input(f"what is the score from {key} for that keyword")))
             if(size == 0):
-                user_decsion = input("please type yes if you would like to enter more keywords or any key to continue")
-                if (user_decsion.upper() == "YES"):
-                    pass
-                else:
+                user_decsion = input("please type no if you have no more keywords you would like to add otherwise press"
+                                     " any key to contine ")
+                if (user_decsion.upper() == "NO"):
                     keep_going = False
             if(size == count+1):
                 print("seems you have reached your keyword limit")
