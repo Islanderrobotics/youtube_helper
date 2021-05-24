@@ -1,3 +1,4 @@
+
 class helper:
     def __init__(self):
         self.keyword = {}
@@ -18,7 +19,6 @@ class helper:
             databases = input("what is the name a database we will be looking at today")
             self.keyword[databases] = []
             self.key.append(databases)
-
     def insert(self):
         print("Hello Youtuber now that we have the databases that you will be using why dont we start adding some keywords")
         size = 0
