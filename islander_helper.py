@@ -61,7 +61,7 @@ class helper:
                             break
                         except ValueError:
                             print("please enter a number")
-            if(user_decsion == None):
+            if(user_decsion is None):
                 user_decsion = input("please type no if you have no more keywords you would like to add otherwise press"
                                      " any key to contine ")
                 if (user_decsion.upper() == "NO"):
