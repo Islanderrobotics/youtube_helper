@@ -1,6 +1,7 @@
 '''this is a class devloped to help youtubers organize there keywords'''
 import os
 import sys # you will need these two modules
+from colorama import Back,Fore,init
 class helper:
     def __init__(self):
         '''initialzing the class'''
@@ -8,6 +9,7 @@ class helper:
         self.key = []
         self.keyword["Keyword"] = []
         self.key.append("Keyword")
+        self.number_of_char = 0 # this is going to be used in the new function
         print("Hello youtuber I am the youtube keyword planner but you can call me helper if you would like.")
         print("I was created to make your youtube keyword research less of a head ache.")
         print("I do this by keeping track of all your keyword scores from different databases for each video")
@@ -35,14 +37,35 @@ class helper:
                 os.system("cls") #allows you to print that command directly into the system
             else:
                 os.system("clear")
+    def size(self,number):
+        '''this function is going to be used to allow the user to know how many chracters they have left'''
+        self.number_of_char+=number
+        percent_full = self.number_of_char/self.total
+        character_left = self.total-self.number_of_char
+        if (percent_full >=1):
+            print("Sorry creator but you have reached your character limit")
+            return False
+        elif (percent_full>=0.75):
+            print(f"{Fore.RED}{Back.RED} |||||||||||||||||||||||||||||||||||||||||||||||||||| {Back.RESET} you have {character_left} left")
+
+        elif (percent_full>0.50):
+
+            print(f"{Fore.YELLOW}{Back.YELLOW} |||||||||||||||||||||||||||||||||||||||||||||||||||| {Back.RESET} you have {character_left} left")
+        elif (percent_full >= 0.25):
+
+            print(f"{Fore.MAGENTA}{Back.MAGENTA} |||||||||||||||||||||||||||||||||||||||||||||||||||| {Back.RESET} you have {character_left} left")
+        elif (percent_full >=0.0):
+
+            print(f"{Fore.GREEN}{Back.GREEN} |||||||||||||||||||||||||||||||||||||||||||||||||||| {Back.RESET} you have {character_left} left")
+        return True
     def insert(self):
         print("Hello Youtuber now that we have the databases that you will be using why dont we start adding some keywords")
         size = 0
         count = 0
-        # user_decsion = input("is there a specifc number of keywords you would like to enter please type yes if there is or any key if not")
-        # if (user_decsion.upper() == "YES"):
-        #     size = int(input("how many keywords will you be entering"))
-        # we are going to convert this to a more efficient way
+        try:
+            self.total = int(input("the default character limit is 500 enter any character to continue, or enter the character limit you would like "))
+        except ValueError:
+            self.total = 500
         try:
             user_decsion = int(input("enter the specific number of keywords you would like to enter\n"
                 "if you do not have a specific number of keywords you would like to enter press any character "))
@@ -50,10 +73,16 @@ class helper:
         except ValueError:
             user_decsion = None
         keep_going = True
+        print("the bar bellow represents how many character you have left\n"
+            "green means you are good, magenta means you have filled 25% of your limit\n"
+            "yellow means your character limit is halfway full\n"
+            "red means you have filled 75% or more of your character limit")
+        print(f"{Fore.GREEN}{Back.GREEN} |||||||||||||||||||||||||||||||||||||||||||||||||||| {Back.RESET} you have {self.total} left")
         while(keep_going):
             for key in self.key:
                 if key == "Keyword":
-                    self.keyword[key].append(input("what keyword will you like to enter "))
+                    keyword = input("what keyword will you like to enter ")
+                    self.keyword[key].append(keyword)
                 else:
                     while(True):
                         try:
@@ -73,6 +102,9 @@ class helper:
                 keep_going = False
             if(size>0):
                 count+=1
+            self.clear_line()
+            keep_going = self.size(len(keyword))
+        init(autoreset = True)
     def driver(self):
         self.clear_line()
         self.insert()
