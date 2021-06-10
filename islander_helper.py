@@ -2,6 +2,7 @@
 import os
 import sys # you will need these two modules
 from colorama import Back,Fore,init
+from islander_sort import Islander_sort
 class helper:
     def __init__(self):
         '''initialzing the class'''
@@ -105,6 +106,44 @@ class helper:
             self.clear_line()
             keep_going = self.size(len(keyword))
         init(autoreset = True)
+    def sort(self):
+        """this function is made to have the user decided which database 
+        they will have there data sorted by then pass it to islander_sorts"""
+        for i in range(1, len(self.key)):
+            print(f" you have the choice press of {i} to have your data sorted by")
+            print(f"{self.key[i]}")
+
+            while (True):
+                try:
+                    user = int(input("please enter the databases you will sort by"))
+                    break
+                except ValueError:
+                    print("please enter one of the options")
+            self.sort = Islander_sort(number_list = self.keyword[self.key[user]],
+                string_list = self.keyword["Keyword"])
+            self.sort.driver()
+            self.sorted_number_list = self.sort.number
+            self.sorted_string_list = self.sort.string
+
     def driver(self):
         self.clear_line()
         self.insert()
+        user = "what"
+        while (user.upper() != "Q"):
+            print("hello user now that you have entered all the data from the databases")
+            print("why dont we start manipulating that data")
+            print("you have the option to type sort to have your data to be sorted by\n"
+                " which ever database you would like")
+            print("or you can enter top to see the data data points")
+            print("finally you can enter csv to have your data exported to a file")
+            user = input("enter any of the options to continue or if you want to exit the selection just press q")
+
+            if (user.upper() == "SORT"):
+                self.sort()
+                self.clear_line()
+            elif (user.upper() == "TOP"):
+                pass
+
+            elif (user.upper() == "CSV"):
+                pass
+
