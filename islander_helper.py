@@ -3,6 +3,7 @@ import os
 import sys # you will need these two modules
 from colorama import Back,Fore,init
 from islander_sort import Islander_sort
+import queue
 class helper:
     def __init__(self):
         '''initialzing the class'''
@@ -44,6 +45,7 @@ class helper:
         percent_full = self.number_of_char/self.total
         character_left = self.total-self.number_of_char
         if (percent_full >=1):
+            init(autoreset = True)
             print("Sorry creator but you have reached your character limit")
             return False
         elif (percent_full>=0.75):
@@ -105,13 +107,13 @@ class helper:
                 count+=1
             self.clear_line()
             keep_going = self.size(len(keyword))
-        init(autoreset = True)
-    def sort(self):
+    def sorting(self):
         """this function is made to have the user decided which database 
         they will have there data sorted by then pass it to islander_sorts"""
-        for i in range(1, len(self.key)):
-            print(f" you have the choice press of {i} to have your data sorted by")
-            print(f"{self.key[i]}")
+        if (len(self.key)>2):
+            for i in range(1,len(self.key)):
+                print(f" you have the choice press {i} to have your data sorted by")
+                print(f"{self.key[i]}")
 
             while (True):
                 try:
@@ -119,31 +121,84 @@ class helper:
                     break
                 except ValueError:
                     print("please enter one of the options")
-            self.sort = Islander_sort(number_list = self.keyword[self.key[user]],
-                string_list = self.keyword["Keyword"])
-            self.sort.driver()
-            self.sorted_number_list = self.sort.number
-            self.sorted_string_list = self.sort.string
+        else:
+            user = 1
+        self.sort = Islander_sort(number_list = self.keyword[self.key[user]],
+            string_list = self.keyword["Keyword"])
+        self.sort.drive()
+    def top(self):
+        '''this function will be used to allow the user to see there top values'''
+        i = len(self.key)-1
+        self.queue = queue.Queue()
 
+        while (True):
+            try:
+                which_queue = int(input("you have the choice to press 1 to see both the top keywords and the scores\n"
+                    "or you can press 2 to just see the scores\n"
+                    "your last choice will be to press 3 to see just the keywords "))
+                if (which_queue >=1 and which_queue<=3):
+                    break
+                else:
+                    print("please pick one of the options")
+            except ValueError:
+                print("please pick one of the options")
+        if (which_queue == 1):
+            while(i>=0):
+                self.queue.put(self.sort.data[i])
+                i-=1
+        elif (which_queue ==2):
+            while(i>=0):
+                self.queue.put(self.sort.number[i])
+                i-=1
+        elif(which_queue == 3):
+            while(i>=0):
+                self.queue.put(self.sort.string[i])
+                i-=1
+        while (True):
+            try:
+                number = int(input("what is the top values you would like to see "))
+                if(number >self.queue.qsize()):
+                    print("the number of keywords you have entered is less then the number you chose")
+                    print(f"please enter a number less then or equal to {self.queue.qsize()}")
+                else:
+                    break
+            except ValueError:
+                print("please enter a number")
+        for i in range(number):
+            print(self.queue.get())
     def driver(self):
         self.clear_line()
         self.insert()
+        is_sorted = False
         user = "what"
         while (user.upper() != "Q"):
             print("hello user now that you have entered all the data from the databases")
             print("why dont we start manipulating that data")
             print("you have the option to type sort to have your data to be sorted by\n"
                 " which ever database you would like")
-            print("or you can enter top to see the data data points")
+            print("or you can enter top to see the top data")
             print("finally you can enter csv to have your data exported to a file")
-            user = input("enter any of the options to continue or if you want to exit the selection just press q")
+            user = input("enter any of the options to continue or if you want to exit the selection just press q ")
 
             if (user.upper() == "SORT"):
-                self.sort()
+                self.sorting()
                 self.clear_line()
+                is_sorted = True
             elif (user.upper() == "TOP"):
-                pass
-
+                if (is_sorted):
+                    self.top()
+                    self.clear_line()
+                elif(is_sorted is False and len(self.key)>2):
+                    print("you have to sort the data first")
+                    self.sorting()
+                    self.top()
+                    self.clear_line()
+                    is_sorted =True
+                elif(is_sorted is False and len(self.key)==2):
+                    self.sorting()
+                    self.top()
+                    self.clear_line()
+                    is_sorted =True
             elif (user.upper() == "CSV"):
                 pass
 

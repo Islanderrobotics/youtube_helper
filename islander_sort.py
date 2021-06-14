@@ -59,18 +59,3 @@ class Islander_sort:
 	def drive(self):
 		self.data = self.MergeSort(self.data)
 		self.split()
-
-new_list = [4,3,0,6,2,7,100,43]
-string_list = ["bob", "what","will","you","do","with","that","stuff"]
-print("this is islander sort with out a string_list")
-data = Islander_sort(number_list = new_list)
-data.drive()
-print(f"this is the list with out split{data.data}")
-print(f"this is the number list as well with out the split {data.number}")
-print("\n")
-print("this is the data with the string list")
-data = Islander_sort(number_list = new_list, string_list = string_list)
-data.drive()
-print(f"this is the list with split{data.data}")
-print(f"this is the number list as well with the split {data.number}")
-print(data.string)
