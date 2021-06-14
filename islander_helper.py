@@ -123,9 +123,19 @@ class helper:
                     print("please enter one of the options")
         else:
             user = 1
-        self.sort = Islander_sort(number_list = self.keyword[self.key[user]],
+        sort = Islander_sort(number_list = self.keyword[self.key[user]],
             string_list = self.keyword["Keyword"])
-        self.sort.drive()
+        sort.drive()
+        self.number = []
+        self.string = []
+        self.data = []
+        for i in reversed(sort.data):
+            self.data.append(i)
+        for i in reversed(sort.number):
+            self.number.append(i)
+        for i in reversed(sort.string):
+            self.string.append(i)
+    
     def top(self):
         '''this function will be used to allow the user to see there top values'''
         i = len(self.key)-1
@@ -143,29 +153,32 @@ class helper:
             except ValueError:
                 print("please pick one of the options")
         if (which_queue == 1):
-            while(i>=0):
-                self.queue.put(self.sort.data[i])
-                i-=1
+            for i in self.data:
+                self.queue.put(i)
+            queue_size = len(self.data)
         elif (which_queue ==2):
-            while(i>=0):
-                self.queue.put(self.sort.number[i])
-                i-=1
+            for i in self.number:
+                self.queue.put(i)
+            queue_size = len(self.number)
         elif(which_queue == 3):
-            while(i>=0):
-                self.queue.put(self.sort.string[i])
-                i-=1
+            for i in self.string:
+                self.queue.put(i)
+            queue_size = len(self.string)
         while (True):
             try:
                 number = int(input("what is the top values you would like to see "))
-                if(number >self.queue.qsize()):
-                    print("the number of keywords you have entered is less then the number you chose")
-                    print(f"please enter a number less then or equal to {self.queue.qsize()}")
-                else:
+                if(number <=queue_size):
                     break
+                else:
+                    print("the number of keywords you have entered is less then the number you chose")
+                    print(f"please enter a number less then or equal to {queue_size}")
             except ValueError:
                 print("please enter a number")
         for i in range(number):
             print(self.queue.get())
+            if (self.queue.empty()):
+                break
+
     def driver(self):
         self.clear_line()
         self.insert()
