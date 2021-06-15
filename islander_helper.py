@@ -4,6 +4,7 @@ import sys # you will need these two modules
 from colorama import Back,Fore,init
 from islander_sort import Islander_sort
 import queue
+from pandas import DataFrame
 class helper:
     def __init__(self):
         '''initialzing the class'''
@@ -97,12 +98,14 @@ class helper:
                 user_decsion = input("please type no if you have no more keywords you would like to add otherwise press"
                                      " any key to contine ")
                 if (user_decsion.upper() == "NO"):
-                    keep_going = False
+                    # was keep_going = False
+                    break
                 else:
                     user_decsion = None
             if(size == count+1):
                 print("seems you have reached your keyword limit")
-                keep_going = False
+                #  was keep_going = False
+                break
             if(size>0):
                 count+=1
             self.clear_line()
@@ -135,7 +138,7 @@ class helper:
             self.number.append(i)
         for i in reversed(sort.string):
             self.string.append(i)
-    
+        self.is_sorted = True
     def top(self):
         '''this function will be used to allow the user to see there top values'''
         i = len(self.key)-1
@@ -178,11 +181,22 @@ class helper:
             print(self.queue.get())
             if (self.queue.empty()):
                 break
+    def export(self):
+        name = input("what would you like the file to be named")
+        csv_name = name + "_scores_and_keywords.csv"
+        data = DataFrame(self.data, columns = ["scores", "keywords"])
+        data.to_csv(csv_name)
+        youtube_file = f"{name}.txt"
+        with open(youtube_file, "w") as file:
+            for i in self.string:
+                file.write(f"{i},")
 
+        print(f"a csv file was made in the name of {csv_name}")
+        print(f"a text file was made in the name of {youtube_file} you can copy and paste this in to Youtube")
     def driver(self):
         self.clear_line()
         self.insert()
-        is_sorted = False
+        self.is_sorted = False
         user = "what"
         while (user.upper() != "Q"):
             print("hello user now that you have entered all the data from the databases")
@@ -196,22 +210,29 @@ class helper:
             if (user.upper() == "SORT"):
                 self.sorting()
                 self.clear_line()
-                is_sorted = True
             elif (user.upper() == "TOP"):
-                if (is_sorted):
-                    self.top()
-                    self.clear_line()
-                elif(is_sorted is False and len(self.key)>2):
+                # if (is_sorted):
+                #     self.top()
+                #     self.clear_line() was
+                if(self.is_sorted is False and len(self.key)>2):
                     print("you have to sort the data first")
                     self.sorting()
-                    self.top()
-                    self.clear_line()
-                    is_sorted =True
-                elif(is_sorted is False and len(self.key)==2):
+                    # self.top()
+                    # self.clear_line()
+                    # is_sorted =True
+                if(self.is_sorted is False and len(self.key)==2):
                     self.sorting()
-                    self.top()
-                    self.clear_line()
-                    is_sorted =True
+                    # self.top()
+                    # self.clear_line()
+                    # is_sorted =True
+                self.top()
+                self.clear_line()
             elif (user.upper() == "CSV"):
-                pass
+                if(self.is_sorted is False and len(self.key)>2):
+                    print("you have to sort the data first")
+                    self.sorting()
+                elif(self.is_sorted is False and len(self.key)==2):
+                    self.sorting()
+                self.export()
+                self.clea r_line()  
 
