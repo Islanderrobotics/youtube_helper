@@ -234,5 +234,5 @@ class helper:
                 elif(self.is_sorted is False and len(self.key)==2):
                     self.sorting()
                 self.export()
-                self.clea r_line()  
+                self.clear_line()  
 
