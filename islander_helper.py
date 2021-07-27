@@ -111,8 +111,7 @@ class helper:
             self.clear_line()
             keep_going = self.size(len(keyword))
     def sorting(self):
-        """this function is made to have the user decided which database 
-        they will have there data sorted by then pass it to islander_sorts"""
+
         if (len(self.key)>2):
             for i in range(1,len(self.key)):
                 print(f" you have the choice press {i} to have your data sorted by")
